@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <van-nav-bar title="首页">
       <van-icon name="search" slot="left"></van-icon>
-      <van-icon name="cart-o" slot="right"></van-icon>
+      <van-icon slot="right" @click="toLogin">{{userInfo.username}}</van-icon>
     </van-nav-bar>
     <!-- 轮播图 -->
     <van-swipe :autoplay="3000">
@@ -32,14 +32,6 @@
         <div>￥ {{item.price}}</div>
       </div>
     </div>
-
-    <!-- 底部栏 -->
-    <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
-      <van-tabbar-item icon="records" to="/catalogue">分类</van-tabbar-item>
-      <van-tabbar-item icon="cart-o" to="/cart">购物车</van-tabbar-item>
-      <van-tabbar-item icon="contact" to="/profile">我的</van-tabbar-item>
-    </van-tabbar>
   </div>
 </template>
 
@@ -52,10 +44,10 @@ import { swiper, swiperSlide } from "vue-awesome-swiper";
 import data from "@/mock/mock.js";
 import axios from "axios";
 import url from "../../service.config.js"
+import {mapState} from "vuex";
 export default {
   data() {
     return {
-      active: 0,
       recommandList: [],
       images: [
         "https://img.yzcdn.cn/vant/apple-1.jpg",
@@ -64,7 +56,7 @@ export default {
       swiperOption: {
         slidesPerView: 3
       },
-      hotSwiper: []
+      hotSwiper: [],
     };
   },
   components: {
@@ -76,6 +68,14 @@ export default {
       this.recommandList = res.data.list;
       this.hotSwiper = res.data.list;
     });
+  },
+  computed:{
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    toLogin(){
+      this.$router.push("/profile");
+    }
   }
 };
 </script>
