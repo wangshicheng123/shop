@@ -5,13 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo: {
-      username: "未登录"
-    }
+    userInfo: {}
   },
   mutations: {
     changeUser(state, status){
-      state.userInfo.username= status;
+      state.userInfo= status;
     }
   },
   actions: {

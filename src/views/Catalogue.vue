@@ -24,7 +24,7 @@
             finished-text="没有更多了"
             @load="onLoad"
           >
-            <van-cell v-for="(item,index) in productrList" :key="index" class="product-list-item">
+            <van-cell @click="goDetail(item._id)" v-for="(item,index) in productrList" :key="index" class="product-list-item">
               <img :src="item.img" alt />
               <div class="product-list-item-name">{{item.name}}</div>
               <div class="product-list-item-price">￥{{item.price}}</div>
@@ -97,10 +97,29 @@ export default {
       }, 2000);
     },
     onRefresh() {
+      console.log("onrefresh");
       this.productrList = [];
       this.finished = false;
       this.start = 0;
       this.getProductList();
+    },
+    goDetail(id){
+      // console.log(item)
+
+      // 路由传递参数， 页面刷新也不会丢失
+      // this.$router.push(`/detail/${id}`);
+
+      // name传递参数，页面刷新数据会丢失
+      // this.$router.push({
+      //   name: "detail",
+      //   params: {id: id}
+      // });
+
+      // path传递参数，页面刷新数据不会丢失
+      this.$router.push({
+        path: "/detail",
+        query: {id: id}
+      });
     }
   }
 };

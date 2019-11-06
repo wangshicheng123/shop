@@ -64,13 +64,13 @@ export default {
         .then(res => {
           if(res.data.code==200){
             this.$toast.success("登录成功");
-            this.changeUserAction(res.data.data.username);
+            this.changeUserAction(res.data.data);
             new Promise((resolve,reject)=>{
               setTimeout(() => {
                 resolve();
               }, 1000);
             }).then(()=>{
-              this.$router.push("/");
+              this.$router.go(-1);
             });
           }else{
             this.$toast.fail("登录失败,请重试");
@@ -90,18 +90,18 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if(res.data.code==200){
               this.$toast.success("注册成功")
-              console.log(res.data);
+              // console.log(res.data);
           }else{
               this.$toast.fail("注册失败");
-              console.log(res.data);
+              // console.log(res.data);
           }
         })
         .catch(res => {
             this.$toast.fail("注册失败");
-            console.log(res.data);
+            // console.log(res.data);
         });
     }
   },

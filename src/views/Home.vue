@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <van-nav-bar title="首页">
       <van-icon name="search" slot="left"></van-icon>
-      <van-icon slot="right" @click="toLogin">{{userInfo.username}}</van-icon>
+      <van-icon slot="right" @click="toLogin">{{userInfo.username ? userInfo.username: "未登录"}}</van-icon>
     </van-nav-bar>
     <!-- 轮播图 -->
     <van-swipe :autoplay="3000">
