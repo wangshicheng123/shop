@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       active: 0,
-      loginUsername: "",
-      loginPassword: "",
+      loginUsername: "11",
+      loginPassword: "11",
       registUsername: "",
       registPassword: "",
       value: ""
