@@ -1,8 +1,6 @@
 module.exports={
-    productionSourceMap: false,    // 把打包后生成的map文件删除
-    devServer: {
-        open: true
-    },
+    productionSourceMap: false,    // 把打包后生成的map文件删除 
+    publicPath: "./"
 
     // configureWebpack: config=>{
     //     if(process.env.NODE_ENV=='production'){
