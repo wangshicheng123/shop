@@ -1,5 +1,5 @@
 const MOCKURL= "http://nongji.com/";
-const SERVERURL= "http://localhost:3000/";
+const SERVERURL= "http://49.232.143.111/shop/";
 
 export default{
     recommandList: MOCKURL+ 'recommandList',
