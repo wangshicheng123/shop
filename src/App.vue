@@ -17,7 +17,7 @@
 <script>
 export default {
   created(){
-    console.log(this.$route.meta.keepAlive);
+    // console.log(this.$route.meta.keepAlive);
   }
 }
 </script>>

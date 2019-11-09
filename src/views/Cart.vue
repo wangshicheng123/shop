@@ -5,12 +5,12 @@
       <van-card
         v-for="(item,index) in productList"
         :key="index"
-        :price="item.price"
-        :desc="item.company"
-        :title="item.name"
+        :price="item.productId.price"
+        :desc="item.productId.company"
+        :title="item.productId.name"
       >
         <div slot="thumb" class="cart-img">
-          <img :src="item.img" alt />
+          <img :src="item.productId.img" alt />
         </div>
         <div slot="footer">
           <van-button size="mini" @click="deleCart(item._id,index)">删除</van-button>
@@ -35,8 +35,8 @@ export default {
     ...mapState(["userInfo"]),
     totalPrice(){
         return (this.productList.reduce((total,item)=>{
-            if(item.price=="面议"){item.price=5000}
-            return total+parseInt(item.price);
+            if(item.productId.price=="面议"){item.productId.price=5000}
+            return total+parseInt(item.productId.price);
         },0))*100  
     }
   }, 
@@ -51,9 +51,10 @@ export default {
         params: { userId: this.userInfo._id }
       }).then(res => {
         if (res.data.code == 200) {
-          for (let item of res.data.data) {
-            this.productList.push(item.productId);
-          }
+          this.productList=res.data.data;
+          // for (let item of res.data.data) {
+            // this.productList.push(item.productId);
+          // }
         } else {
           this.$toast.fail("购物车暂无数据");
         }

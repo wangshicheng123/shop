@@ -26,8 +26,7 @@ export default new Router({
       components: {
         default: Cart,
         "footer-bar": FooterBar
-      },
-      meta: {keepAlive: true}
+      }
     },{
       path:'/catalogue',
       name:'catalogue',
@@ -50,8 +49,7 @@ export default new Router({
       // path: "/detail/:id",
       path: '/detail',
       name: "detail",
-      component: Detail,
-      meta: {keepAlive: true}
+      component: Detail
     }
   ]
 })
