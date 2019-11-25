@@ -1,29 +1,6 @@
-# shop
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![效果图请看：](http://49.232.143.111:3000/images/1.jpg)
+![效果图请看：](http://49.232.143.111:3000/images/2.jpg)
+![效果图请看：](http://49.232.143.111:3000/images/3.jpg)
+![效果图请看：](http://49.232.143.111:3000/images/4.jpg)
+![效果图请看：](http://49.232.143.111:3000/images/5.jpg)
+![效果图请看：](http://49.232.143.111:3000/images/6.jpg)
