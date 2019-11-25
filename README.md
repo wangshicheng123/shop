@@ -45,15 +45,79 @@
 `npm run build`
 
 ## 开发过程中重点问题总结
-1. 要求自适应布局<br>
+#### 一： 项目前期准备遇到的问题
+1. 移动端屏幕适配方案<br>
 
 
-2. transition过渡<br>
+2. 配置底部菜单路由--Vue Router<br>
 
+#### 二：首页布局及 Vant 
+1. 按需引入Vant<br>
+1. 首页布局及样式<br>
+1. 轮播图组件及懒加载<br>
+1. 热门商品vue-awesome-swiper<br>
 
+#### 三：Axios 及 Mock.js
+1. Axios介绍及使用<br>
+1. Mock.js生成随机数据,拦截Ajax请求<br>
+1. 完成首页其他部分<br>
+1. 后端接口配置<br>
 
+#### 四：Koa2
+1. 异步操作async、await<br>
+1. MVC模式<br>
+1. 安装Koa2<br>
+1. 接收前端请求GET、POST<br>
+1. koa-router<br>
+1. cookie<br>
+1. 模板ejs<br>
 
+#### 五：MongoDB
+1. 安装MongoDB <br>
+1. 常用命令<br>
+1. 数据增删改查<br>
+1. 索引<br>
 
+#### 六：用户注册
+1. 前端页面编写<br>
+1. 前后端交互操作数据库<br>
+1. koa-router <br>
+1. Mongoose<br>
+1. 跨域<br>
+1. 密码加盐加密<br>
+
+#### 七：用户登录
+1. 页面编写<br>
+1. 密码加盐加密<br>
+1. session<br>
+1. Vuex<br>
+
+#### 八：商品分类功能
+1. Node.js读取JSON文件数据导入数据库<br>
+1. 页面编写,二级联动<br>
+1. 上拉加载<br>
+1. 下拉刷新<br>
+
+#### 九：商品详情功能
+1. 页面编写<br>
+1. vue-router传参方式<br>
+1. 使用Vant组件<br>
+1. 连接数据库查询商品详情<br>
+1. 指定路由不显示公共组件<br>
+1. 加入购物车判断登录状态<br>
+
+#### 十：购物车功能及打包优化
+1. 页面编写<br>
+1. 总价计算computed<br>
+1. 多集合查询<br>
+1. 打包 优化<br>
+   1. 刷新页面，footerBar默认选中
+   2. 缓存路由组件
+   3. 路由组件懒加载
+   4. 错误页面处理 404
+   5. UI库按需加载
+   6. 打包文件分析 report
+   7. gzip
 
 
 
