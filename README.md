@@ -68,6 +68,7 @@
 ## 开发过程中重点问题总结
 #### 一 项目前期准备遇到的问题
 1. 移动端屏幕适配方案<br>
+
    首页中推荐列表目前我们使用mockjs模拟的数据，
    但是布局却是使用的flex弹性盒模型布局：
    ```
@@ -86,19 +87,20 @@
    媒体查询
    rem
 
-2. 配置底部菜单路由--Vue Router<br>
+2. 配置底部菜单路由<br>
+
    使用的是vant提供的tabbar导航栏组件，
    存在的问题：不能重复点击当前这个导航项，不然会报错（不能跳转到当前路由)
    解决方法： 可以使用vue提供的全局导航守卫beforeRouterenter来进行拦截判断；
    ```
-     <!-- 底部栏 -->
+   底部栏 ！不允许导航到当前路由位置
   <van-tabbar v-model="active" route @change="change">
-    <!-- 不允许导航到当前路由位置 -->
     <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
     <van-tabbar-item icon="records" to="/catalogue">分类</van-tabbar-item>
     <van-tabbar-item icon="cart-o" to="/cart">购物车</van-tabbar-item>
     <van-tabbar-item icon="contact" to="/profile">我的</van-tabbar-item>
   </van-tabbar>
+  
    ```
 #### 二 首页布局及Vant 
 1. 按需引入Vant<br>
