@@ -416,11 +416,20 @@
 #### 九 商品详情功能
 1. vue-router传参方式<br>
    ```
-   // params传参
-   this.router.push("/path",{params:{name:"xiaowang"}})
-   
-   // 
-   this.router.push({"name":"Footer",query:{}});
+      // 路由传递参数， 页面刷新也不会丢失
+       this.$router.push(`/detail/${id}`);
+
+      // name传递参数，页面刷新数据会丢失
+       this.$router.push({
+         name: "detail",
+         params: {id: id}
+       });
+
+      // path传递参数，页面刷新数据不会丢失
+      this.$router.push({
+        path: "/detail",
+        query: {id: id}
+      });
    ```
 1. 连接数据库查询商品详情<br>
 1. 指定路由不显示公共组件<br>
