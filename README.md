@@ -88,19 +88,16 @@
    rem
 
 2. 配置底部菜单路由<br>
-
-   使用的是vant提供的tabbar导航栏组件，
-   存在的问题：不能重复点击当前这个导航项，不然会报错（不能跳转到当前路由)
-   解决方法： 可以使用vue提供的全局导航守卫beforeRouterenter来进行拦截判断；
    ```
-   底部栏 ！不允许导航到当前路由位置
-  <van-tabbar v-model="active" route @change="change">
-    <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
-    <van-tabbar-item icon="records" to="/catalogue">分类</van-tabbar-item>
-    <van-tabbar-item icon="cart-o" to="/cart">购物车</van-tabbar-item>
-    <van-tabbar-item icon="contact" to="/profile">我的</van-tabbar-item>
-  </van-tabbar>
-  
+         使用的是vant提供的tabbar导航栏组件，
+         存在的问题：不能重复点击当前这个导航项，不然会报错（不能跳转到当前路由)<br>
+         解决方法： 可以使用vue提供的全局导航守卫beforeRouterenter来进行拦截判断；
+        <van-tabbar v-model="active" route @change="change">
+          <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
+          <van-tabbar-item icon="records" to="/catalogue">分类</van-tabbar-item>
+          <van-tabbar-item icon="cart-o" to="/cart">购物车</van-tabbar-item>
+          <van-tabbar-item icon="contact" to="/profile">我的</van-tabbar-item>
+        </van-tabbar>
    ```
 #### 二 首页布局及Vant 
 1. 按需引入Vant<br>
