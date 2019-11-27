@@ -33,20 +33,21 @@
 `Vue 全家桶、Vant、ES6、webpack、Node.js、Koa2、 MongoDB、Mongoose`
 
 ## 项目目录
-
+![项目目录：](http://49.232.143.111:3000/images/dir1.png)
 ## 项目结构
 ```
-. common文件夹存放的是通用的css和fonts<br/>
+. assets文件夹存放的是通用的css和fonts<br/>
 . componets文件夹用来存放Vue组件<br/>
-. router文件夹存放Vue组件<br/>
-. build文件是webpack的打包编译配置文件<br/>
-. config文件夹存放的是一些配置项，比如我们服务器访问的端口配置等<br/>
+. vue.config.js文件存放的是一些配置项，比如我们服务器访问的端口配置等<br/>
 . dist该文件一开始是不存放，在项目经过build之后才会生成<br/>
-. Prod.server.js该文件是测试模拟的服务器配置，用来运行dist里面的文件
-. config/index.js中，build对象中添加一条端口设置port:9000<br/>
+. server.config.js该文件是用于存放一些公共接口的和一些全局常量
 . App.vue根组件，所有的子组件都将在这里被引用<br/>
-. Index.html整个项目的入口文件，将会引用我们的根组件App.vue<br/>
-. Main.js入口文件的js逻辑，在webpack打包之后将被注入到index.html<br/>
+. index.html整个项目的入口文件，将会引用我们的根组件App.vue<br/>
+. main.js入口文件的js逻辑，在webpack打包之后将被注入到index.html<br/>
+. views文件夹存放的是一些页面级别的组件<br/>
+. router.js文件是用于配置路由组件的<br/>
+. store.js文件时用于存储全局的状态信息<br/>
+. mock文件夹中是用于存放一些开发时使用的一些模拟生成的数据<br/>
 ```
 ## 搭建Vue的运行环境
 1. 首先是安装node <br>
@@ -67,10 +68,38 @@
 ## 开发过程中重点问题总结
 #### 一 项目前期准备遇到的问题
 1. 移动端屏幕适配方案<br>
-
+   首页中推荐列表目前我们使用mockjs模拟的数据，
+   但是布局却是使用的flex弹性盒模型布局：
+   ```
+   .parent{
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+   }
+   .son{
+      flex: .4;
+      // width: 45%;
+   }
+   ```
+   常用的还有：
+   百分比
+   媒体查询
+   rem
 
 2. 配置底部菜单路由--Vue Router<br>
-
+   使用的是vant提供的tabbar导航栏组件，
+   存在的问题：不能重复点击当前这个导航项，不然会报错（不能跳转到当前路由)
+   解决方法： 可以使用vue提供的全局导航守卫beforeRouterenter来进行拦截判断；
+   ```
+     <!-- 底部栏 -->
+  <van-tabbar v-model="active" route @change="change">
+    <!-- 不允许导航到当前路由位置 -->
+    <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
+    <van-tabbar-item icon="records" to="/catalogue">分类</van-tabbar-item>
+    <van-tabbar-item icon="cart-o" to="/cart">购物车</van-tabbar-item>
+    <van-tabbar-item icon="contact" to="/profile">我的</van-tabbar-item>
+  </van-tabbar>
+   ```
 #### 二 首页布局及Vant 
 1. 按需引入Vant<br>
 1. 首页布局及样式<br>
