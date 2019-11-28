@@ -431,22 +431,173 @@
         query: {id: id}
       });
    ```
-1. 连接数据库查询商品详情<br>
-1. 指定路由不显示公共组件<br>
-1. 加入购物车判断登录状态<br>
-
+2. 连接数据库查询商品详情<br>
+   其实有些情况下，我们可以不需要在商品详情页面在进行查询，例如你的商品表没有和其他表相关联，
+   只是单纯的一个独立的表，那你在商品列表的时候，就会把所有的商品信息都会查询出来，
+   现在你要做的就是点击每一个列表项，带着当前项的商品信息跳转的详情页面即可；
+   ```
+      this.router.push("/path",query:{JSON.stringfy(goodsObj)});  // 这种方式刷新页面数据不会丢失
+   ```
+   如果你的商品表很复杂的情况下，你必须要拿着商品id在到数据库中进行关联查询，拿到这个
+   商品对应关联的所有信息。
+   
+3. 指定路由不显示公共组件<br>
+   在App.vue页面中router-view默认组件的后面再加上一个
+   具有name属性的router-view组件， 表示只会当组件时footerBar的时候，
+   才会显示，其他则不会显示
+   `<router-view name="footer-bar"><router-view>`
+   
+   此时需要配置router.js文件：
+   ```
+     {
+      path: '/',
+      name: 'home',
+      components: {
+          default: Home,              // 表示默认显示的组件
+          "footer-bar": FooterBar     // 表示只有当router-view的name属性为footer-bar的时候才会显示
+        }
+     }
+   ```
+4. 加入购物车判断登录状态<br>
+   在开发购物车页面时就在思考，是不是必须要用户登录之后才能看到自己的购物车信息，
+   其实理论是必须的，但是也看到一些项目为了更好的用户体验，用户并没有登录也能看到自己的购物车信息，
+   应该是把用户的购物车存储在了本地，也是一种优化体验的方式；
+   
+   但在我们的项目中还是要求用户首先登陆才能看见自己的购物车信息，不然重定向到登录页面；
+   验证流程（Json Web Token）：
+   ```
+   取到本地化存储的token,
+   created钩子函数中向服务器发起http请求购物车信息，参数带着token,
+   服务器接收到请求，拿到token，使用jwt.verify(token,fn)做一个token验证是否有效，
+   若有效带着购物车信息返回，否则返回未登录状态，重定向到登录页面
+   ```
 #### 十 购物车功能及打包优化
-1. 页面编写<br>
 1. 总价计算computed<br>
-1. 多集合查询<br>
-1. 打包 优化<br>
+   购物车中存在很多收藏的商品，而且是不断可能会发生变化的，
+   这时候我们需要动态的计算出所有商品的总价，需要使用computed计算属性，
+   ```
+   computed使用场景： 当一个属性依赖于多个属性的值的时候,
+   特点： 只要其关联的响应式的属性值不发生变化，可以直接从缓存中取出上一个计算的值使用；
+   ```
+2. 多集合查询<br>
+   购物车中存在user_id 和 good_id ，需要进行user表和商品表进行关联查询；
+   ```
+   // Cart表的数据结构
+   let CartSchema= new Schema({
+    userId: Schema.Types.ObjectId,
+    productId: {type: Schema.Types.ObjectId, ref: "Product"}
+   });
+   
+   // 查询购物车信息
+   router.get("/getCart", async (ctx)=>{
+    let Cart= Mongoose.model("Cart");
+    let userId= ctx.query.userId;
+    
+    // 注意关联的查询方式
+    await Cart.find({userId: userId}).populate("productId").exec().then((res)=>{
+        ctx.body={
+            code: 200,
+            data: res
+        }
+       }).catch((err)=>{
+           ctx.body={
+               code: 500,
+               data: err
+           }
+       });
+   });
+
+   ```
+3. 打包 优化<br>
    1. 刷新页面，footerBar默认选中
+      我们在使用footerbar组件的默认配置是：
+      ```
+        data() {
+          return {
+            active: 0
+          };
+        }
+      ```
+      可以看出每次刷新页面重新加载footerBar组件时，active为0，
+      不管你当前是出于那个页面，footerBar都会回到初始的默认状态；
+      
+      为了解决这个问题：
+      我们定义了一个change方法，每当点击一个footarBar子项时，都会把当前的
+      actice值存储在localStorage中；
+      在下一次加载页面的时候，会首先加载localStorage中的active信息，并且把这个值赋值给当前页面的active值；
+      ```
+        methods: {
+          change(active){
+            localStorage.setItem("active", active);
+          }
+        },
+        created(){
+          this.active= parseInt(localStorage.getItem("active"));
+        }
+      ```
    2. 缓存路由组件
+      在分类页面我们对应着每个分类都有着许多的商品，
+      假如说用户第一次进来选中了一个分类中的一个商品，我们想让用户离开当前页面，
+      然后又进入此页面还能看到他的那个商品的位置；
+      此时我们可以对路由组件的缓存：
+      ```
+         // App.vue页面（获取$route.meta.keppAlive的值来判断当前渲染的组件是否需要进行缓存）
+         <keep-alive>
+           <router-view v-if="$route.meta.keepAlive"></router-view>
+         </keep-alive>
+         <router-view v-if="!$route.meta.keepAlive"></router-view>
+         
+         // router.js文件 (注意meta属性中配置)
+         {
+            path:'/catalogue',
+            name:'catalogue',
+            components: {
+               default: Catalogue,
+              "footer-bar": FooterBar
+            },
+            meta: {keepAlive: true}     // 需要对路由组件进行缓存
+       },{
+         path:'/profile',
+         name:'profile',
+         components:{
+            default: Profile,
+           "footer-bar": FooterBar
+         },
+         meta: {keepAlive: false}     // 不需要对路由组件进行缓存
+       }
+      ```
    3. 路由组件懒加载
+      当我们在浏览器中加载当前这个项目时，会发现
+      浏览器会加载整个项目的所有代码app.js文件，
+      这个文件体积相对来说比较大；
+      
+      所以我们想当我们使用哪一个组件的时候，在进行去加载优化用户首次加载页面的体验；
+      于是我们使用了路由组件的懒加载：
+      ```
+      // 只需改变组件的引入方式即可
+      const Home= ()=> import("@/views/Home.vue")
+      const Cart=()=>import("@/views/Cart.vue")
+      const Catalogue =()=>import("@/views/Catalogue.vue")
+      const Profile= ()=>import("@/views/Profile.vue")
+      ```
    4. 错误页面处理 404
+      当用户进入了我们项目中的一个路由，为了有更好的用户体验；
+      我们设置了一个专门处理错误路由的错误页面：
+      ```
+      // 注意这个路由必须配置在所有路由组件的后面
+      {
+         path: '*',     // * 表示匹配所有的路由
+         name: "error",
+         component: Error
+       }
+      ```
    5. UI库按需加载
+      按需加载是很有必要的，我们只需要加载我们使用的组件，不使用的则不会进行加载
    6. 打包文件分析 report
+      我们可以很清楚的看到整个项目中哪一个模块占用的体积大小，便于我们进行二次优化
+      `npm run build:prod report`
    7. gzip
+      对代码进行压缩，减小体积
 
 
 
